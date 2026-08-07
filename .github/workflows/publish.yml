@@ -1,28 +1,33 @@
 name: Publish NuGet Package
 
 on:
-    push:
-        branches: ["main"]
+  push:
+    branches: ["main"]
 
 jobs:
-    publish:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
+  publish:
+    runs-on: ubuntu-latest
 
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: 8.0.x
+    permissions:
+      contents: read
+      packages: write
 
-            - name: Restore dependencies
-              run: dotnet restore EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: Build project
-              run: dotnet build EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj -c Release --no-restore
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-            - name: Pack NuGet Package
-              run: dotnet pack EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj -c Release --no-build
+      - name: Restore dependencies
+        run: dotnet restore EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj
 
-            - name: Push to GitHub Packages
-              run: dotnet nuget push "EVA-ECS.Chat.Contracts/bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/EVA-ECS/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+      - name: Build project
+        run: dotnet build EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj -c Release --no-restore
+
+      - name: Pack NuGet Package
+        run: dotnet pack EVA-ECS.Chat.Contracts/EVA-ECS.Chat.Contracts.csproj -c Release --no-build
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push "EVA-ECS.Chat.Contracts/bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/EVA-ECS/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
