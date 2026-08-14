@@ -3,6 +3,9 @@ name: Publish NuGet Package
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
+    types: ["closed"]
 
 jobs:
   publish:
