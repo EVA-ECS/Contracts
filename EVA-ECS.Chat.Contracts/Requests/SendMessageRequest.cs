@@ -1,14 +1,18 @@
+using EVA_ECS.Chat.Contracts.Messages;
+
 namespace EVA_ECS.Chat.Contracts.Requests;
 
 /// <summary>
-/// Frontend sendet eine neue Nachricht an das Gateway (/api/chat).
-/// Das Gateway ergänzt die SenderId aus dem Token und macht daraus das ChatMessagePublishedEvent.
+/// Frontend sendet eine neue, bereits verschlüsselte Nachricht an das Gateway.
+/// SenderId kommt nicht vom Client, sondern wird aus dem validierten JWT gelesen.
 /// </summary>
 public record SendMessageRequest
 {
+    public Guid MessageId { get; init; }
     public Guid RoomId { get; init; }
-    public string EncryptedPayload { get; init; } = string.Empty;
-    public string Signature { get; init; } = string.Empty;
+    public Guid TargetId { get; init; }
+    public long Timestamp { get; init; }
+    public EncryptedMessagePayload Payload { get; init; } = new();
 }
 
 /// <summary>

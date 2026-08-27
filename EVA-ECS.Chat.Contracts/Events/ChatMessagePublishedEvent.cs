@@ -1,3 +1,5 @@
+using EVA_ECS.Chat.Contracts.Messages;
+
 namespace EVA_ECS.Chat.Contracts.Events;
 
 /// <summary>
@@ -9,14 +11,9 @@ public record ChatMessagePublishedEvent
     public Guid MessageId { get; init; }
     public Guid RoomId { get; init; }
     public Guid SenderId { get; init; }
-
-    // E2EE: Der eigentliche Text ist verschlüsselt. Der Server kann ihn nicht lesen!
-    public string EncryptedPayload { get; init; } = string.Empty;
-
-    // E2EE: Die Signatur des Senders (beweist, dass der Absender echt ist)
-    public string Signature { get; init; } = string.Empty;
-
-    public DateTimeOffset Timestamp { get; init; }
+    public Guid TargetId { get; init; }
+    public long Timestamp { get; init; }
+    public EncryptedMessagePayload Payload { get; init; } = new();
 }
 
 /// <summary>
