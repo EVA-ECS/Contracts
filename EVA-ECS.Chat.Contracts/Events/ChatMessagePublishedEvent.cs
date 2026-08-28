@@ -9,7 +9,6 @@ namespace EVA_ECS.Chat.Contracts.Events;
 public record ChatMessagePublishedEvent
 {
     public Guid MessageId { get; init; }
-    public Guid RoomId { get; init; }
     public Guid SenderId { get; init; }
     public Guid TargetId { get; init; }
     public long Timestamp { get; init; }

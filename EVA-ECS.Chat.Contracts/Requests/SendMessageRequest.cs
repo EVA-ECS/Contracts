@@ -9,7 +9,6 @@ namespace EVA_ECS.Chat.Contracts.Requests;
 public record SendMessageRequest
 {
     public Guid MessageId { get; init; }
-    public Guid RoomId { get; init; }
     public Guid TargetId { get; init; }
     public long Timestamp { get; init; }
     public EncryptedMessagePayload Payload { get; init; } = new();

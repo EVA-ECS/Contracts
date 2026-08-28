@@ -6,7 +6,6 @@ by Gateway, Storage and Delivery:
 ```text
 ChatMessagePublishedEvent
   messageId: UUID
-  roomId: UUID
   senderId: UUID (set from the authenticated identity)
   targetId: UUID (private-message recipient)
   timestamp: Unix milliseconds supplied by the client
@@ -19,6 +18,5 @@ ChatMessagePublishedEvent
 `ChatMessageEvent` is retained only as an obsolete v1 compatibility type. New
 code must use `EVA_ECS.Chat.Contracts.Events.ChatMessagePublishedEvent`.
 
-The current contract intentionally does not invent group-recipient envelopes.
-Live group delivery requires a separately agreed representation of the room
-recipients and their per-recipient encrypted keys.
+The MVP supports private messages only. A message is associated with its sender
+and target directly, so the live-delivery contract does not require a room ID.
