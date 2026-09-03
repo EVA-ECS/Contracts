@@ -1,7 +1,22 @@
 # EVA Chat Contracts
 
-Version 2 defines the shared end-to-end encrypted private-message contract used
-by Gateway, Storage and Delivery:
+The current MVP uses the simple plaintext `ChatMessageEvent` shared by Gateway,
+Storage and Delivery:
+
+```text
+ChatMessageEvent
+  messageId: UUID
+  senderId: UUID
+  targetId: UUID (private-message recipient)
+  ciphertext: string (plain text in this MVP)
+  timestamp: UTC timestamp
+```
+
+Storage resolves the private `room_id` from `senderId` and `targetId` using
+`room_members`, then stores `ciphertext` as `messages.content`. Storage sends
+the event to `delivery_queue` only after the database write succeeds.
+
+The later E2EE contract remains available for a future protocol version:
 
 ```text
 ChatMessagePublishedEvent
@@ -15,8 +30,6 @@ ChatMessagePublishedEvent
   payload.signature: string
 ```
 
-`ChatMessageEvent` is retained only as an obsolete v1 compatibility type. New
-code must use `EVA_ECS.Chat.Contracts.Events.ChatMessagePublishedEvent`.
-
-The MVP supports private messages only. A message is associated with its sender
-and target directly, so the live-delivery contract does not require a room ID.
+The MVP supports private messages only. Group messages are outside the current
+scope. A message is associated with its sender and target directly; Storage is
+responsible for resolving the corresponding private room.
