@@ -1,5 +1,8 @@
 # EVA Chat Contracts
 
+Serialization unit tests are in `tests/unit`. Run `npm test` for tests and coverage,
+or `npm run test:unit` without coverage. See [test setup and reports](tests/README.md).
+
 The current MVP uses the existing five-field `ChatMessageEvent` shared by Gateway,
 Storage and Delivery:
 
